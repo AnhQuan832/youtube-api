@@ -112,6 +112,7 @@ export default function CommentList({ comments }: any) {
     if (isReply) {
       const find = localComments.find((c) => c.id === isReply);
       if (find) {
+        find.snippet.totalReplyCount--;
         const newReplies = find.snippet.replies?.filter(
           (c: any) => c.id !== id
         );
