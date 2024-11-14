@@ -16,6 +16,9 @@ import {
 
 const authRoutes = Router();
 
+authRoutes.get("/test", (req, res) => {
+  res.send("Hello World");
+});
 authRoutes.post("/logout", logout);
 authRoutes.post("/login", login);
 authRoutes.get("/callback", callbackLogin);
