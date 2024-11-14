@@ -73,7 +73,7 @@ export const getProfile = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.cookie("accessToken", "", { maxAge: 1 });
+  res.cookie("accessToken", "", { maxAge: 1, domain: process.env.ORIGIN });
   return res.status(200).send("Logged out");
 };
 
