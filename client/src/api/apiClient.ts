@@ -105,3 +105,12 @@ export const deleteComment = async (id: string) => {
     console.log(error);
   }
 };
+
+export const getChannel = async () => {
+  try {
+    const response = await apiClient.get(`/channel`);
+    return response.data.items[0];
+  } catch (error) {
+    console.log(error);
+  }
+};

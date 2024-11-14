@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import {
   addComment,
   addReply,
   deleteComment,
+  getChannel,
   getCommentReplies,
   getListComments,
 } from "@/api/apiClient";
@@ -59,6 +60,17 @@ export default function CommentList({ comments }: any) {
   const [pageToken, setPageToken] = useState<string | null>(
     comments.nextPageToken
   );
+  const [channel, setChannel] = useState<any>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!channel) {
+        const data = await getChannel();
+        if (data) setChannel(data);
+      }
+    };
+    fetchData();
+  }, [channel]);
 
   const loadMore = async () => {
     const res = await getListComments(id || "", { pageToken });
@@ -220,14 +232,18 @@ export default function CommentList({ comments }: any) {
                 >
                   Reply
                 </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="ml-auto"
-                  onClick={() => removeComment(comment.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                {channel?.id ===
+                comment.snippet.topLevelComment.snippet.authorChannelId
+                  .value ? (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="ml-auto"
+                    onClick={() => removeComment(comment.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                ) : null}
               </div>
               {expandedComments.includes(comment.id) && (
                 <div className="mt-4">
@@ -250,20 +266,25 @@ export default function CommentList({ comments }: any) {
                               {formatDate(reply.snippet.publishedAt)}
                             </span>
                           </div>
-                          <div className="flex justify-end">
+                          <div className="flex justify-between">
                             <p className="text-sm text-muted-foreground line-clamp-2">
                               {reply.snippet.textDisplay}
                             </p>
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              className="ml-auto"
-                              onClick={() =>
-                                removeComment(reply.id, comment.id)
-                              }
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
+                            {channel?.id ===
+                            reply.snippet.authorChannelId.value ? (
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                className="ml-auto"
+                                onClick={() =>
+                                  removeComment(reply.id, comment.id)
+                                }
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            ) : (
+                              <div> </div>
+                            )}
                           </div>
                         </div>
                       </div>

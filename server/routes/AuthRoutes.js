@@ -11,6 +11,7 @@ import {
   insertComment,
   insertReply,
   deleteComment,
+  getChannel,
 } from "../controllers/AuthController.js";
 
 const authRoutes = Router();
@@ -19,6 +20,7 @@ authRoutes.post("/logout", logout);
 authRoutes.post("/login", login);
 authRoutes.get("/callback", callbackLogin);
 authRoutes.get("/profile", getProfile);
+authRoutes.get("/channel", getChannel);
 authRoutes.get("/activities", getListActivities);
 authRoutes.get("/activities/:videoId", getVideoDetails);
 authRoutes.get("/comments/:videoId", getListComments);

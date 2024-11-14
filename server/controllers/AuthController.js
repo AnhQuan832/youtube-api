@@ -75,10 +75,28 @@ export const getProfile = async (req, res) => {
   }
 };
 
+export const getChannel = async (req, res) => {
+  try {
+    const { accessToken } = req.cookies;
+    if (!accessToken) return res.status(401).send("Unauthorized");
+    setAccessCredentials(accessToken);
+    const { data } = await youtube.channels.list({
+      part: "snippet,contentDetails,statistics",
+      mine: true,
+    });
+    return res.status(200).send(data);
+  } catch {
+    return res.status(500).send("Internal Server Error");
+  }
+};
 export const logout = (req, res) => {
   res.cookie("accessToken", "", {
     maxAge: 1,
+    sameSite: "None",
+    secure: true,
+    httpOnly: true,
   });
+  console.log("Logged out");
   return res.status(200).send("Logged out");
 };
 
