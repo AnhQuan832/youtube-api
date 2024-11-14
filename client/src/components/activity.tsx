@@ -88,7 +88,7 @@ export function YouTubeActivityList({ activities }: YouTubeActivityListProps) {
       {activities.map((activity) => (
         <Card key={activity.id}>
           <CardHeader>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 md:flex-row flex-col">
               <Avatar className="w-12 h-12">
                 <AvatarImage
                   src={activity.snippet.thumbnails.default.url}
@@ -99,14 +99,14 @@ export function YouTubeActivityList({ activities }: YouTubeActivityListProps) {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <CardTitle className="text-lg">
+                <CardTitle className="text-lg text-center mt-4 md:text-left md:mt-1">
                   {activity.snippet.title}
                 </CardTitle>
                 <CardDescription>
-                  {formatDate(activity.snippet.publishedAt)}
+                  Public on: {formatDate(activity.snippet.publishedAt)}
                 </CardDescription>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center mt-4 md: mt-1">
                 {activity.contentDetails.upload && (
                   <Button
                     variant="outline"

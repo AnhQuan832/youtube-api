@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Youtube } from "lucide-react";
 import { getListActivities, getProfile, login, logout } from "@/api/apiClient";
 import { useEffect, useState } from "react";
@@ -53,20 +53,15 @@ export const Page = () => {
   return (
     <div className="flex items-center justify-center h-[100vh]">
       <Card className="w-full max-w-xl">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            YouTube Channel Activities Report
-          </CardTitle>
-          {/* <CardDescription className="text-center">
-            Enter your credentials to access your account
-          </CardDescription> */}
-        </CardHeader>
         <CardContent className="space-y-4">
           <div className="container mx-auto py-8">
-            <h1 className="text-3xl font-bold mb-6"></h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">
+              {" "}
+              YouTube Channel Activities Report
+            </h1>
             {user ? (
               <div className="space-y-4">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-wrap justify-between items-center">
                   <p className="text-lg">Welcome, {user.name}!</p>
                   <button
                     onClick={handleLogout}

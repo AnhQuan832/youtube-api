@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Loader2, Trash2 } from "lucide-react";
 import {
@@ -153,8 +153,8 @@ export default function CommentList({ comments }: any) {
         </div>
         {localComments.map((comment) => (
           <Card key={comment.id} className="my-4">
-            <CardHeader>
-              <div className="flex items-start space-x-4">
+            <CardHeader className="space-x-1">
+              <div className="flex flex-wrap items-start space-x-2">
                 <Avatar className="w-10 h-10">
                   <AvatarImage
                     src={
@@ -165,11 +165,6 @@ export default function CommentList({ comments }: any) {
                       comment.snippet.topLevelComment.snippet.authorDisplayName
                     }
                   />
-                  <AvatarFallback>
-                    {comment.snippet.topLevelComment.snippet.authorDisplayName.charAt(
-                      0
-                    )}
-                  </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center justify-between">
