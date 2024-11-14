@@ -84,7 +84,6 @@ export const logout = (req, res) => {
 
 export const getListActivities = async (req, res) => {
   try {
-    console.log("nextpage", req.query.pageToken);
     const { data } = await youtube.activities.list({
       part: "snippet,contentDetails",
       mine: true,

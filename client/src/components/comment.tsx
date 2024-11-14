@@ -107,8 +107,17 @@ export default function CommentList({ comments }: any) {
     textRef.current?.focus();
   };
 
-  const removeComment = async (id: string) => {
+  const removeComment = async (id: string, isReply?: string) => {
     await deleteComment(id);
+    if (isReply) {
+      const find = localComments.find((c) => c.id === isReply);
+      if (find) {
+        const newReplies = find.snippet.replies?.filter(
+          (c: any) => c.id !== id
+        );
+        find.snippet.replies = [...newReplies];
+      }
+    }
     const ownListComment = localComments?.filter((c) => c.id !== id);
     setLocalComments([...ownListComment]);
   };
@@ -223,7 +232,7 @@ export default function CommentList({ comments }: any) {
                 <div className="mt-4">
                   <p className="text-sm">{}</p>
                   {comment.snippet.replies.map((reply: any) => (
-                    <div key={reply.id} className="mt-4 mx-4">
+                    <div key={reply.id} className="mt-4 ms-4">
                       <div className="flex items-start space-x-4">
                         <Avatar className="w-10 h-10">
                           <AvatarImage
@@ -240,9 +249,21 @@ export default function CommentList({ comments }: any) {
                               {formatDate(reply.snippet.publishedAt)}
                             </span>
                           </div>
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {reply.snippet.textDisplay}
-                          </p>
+                          <div className="flex justify-end">
+                            <p className="text-sm text-muted-foreground line-clamp-2">
+                              {reply.snippet.textDisplay}
+                            </p>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              className="ml-auto"
+                              onClick={() =>
+                                removeComment(reply.id, comment.id)
+                              }
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>

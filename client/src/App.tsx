@@ -37,7 +37,7 @@ function App() {
               </AuthRoute>
             }
           />
-          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -49,7 +49,7 @@ export const Page = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[100vh]">
+    <div className="flex items-center justify-center h-[100vh] bg-slate-100">
       <Card className="w-full max-w-xl">
         <CardContent className="space-y-4">
           <div className="container mx-auto py-8">
