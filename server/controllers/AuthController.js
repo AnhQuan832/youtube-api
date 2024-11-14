@@ -36,6 +36,7 @@ const youtube = google.youtube({
 });
 
 export const login = (req, res) => {
+  console.log("login url: ", url);
   return res.status(200).send(url);
 };
 
@@ -47,6 +48,7 @@ export const callbackLogin = async (req, res) => {
     res.cookie("accessToken", tokens.access_token, {
       maxAge: maxAge * 1000,
     });
+    console.log("cookie", req.cookies.accessToken);
     res.redirect(process.env.ORIGIN);
   } catch {
     res.redirect(process.env.ORIGIN);
@@ -63,6 +65,7 @@ export const getProfile = async (req, res) => {
       version: "v2",
     });
     let { data } = await oauth2.userinfo.get();
+    console.log("profile:", data);
     return res.status(200).send(data);
   } catch {
     return res.status(500).send("Internal Server Error");
