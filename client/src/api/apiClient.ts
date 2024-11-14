@@ -28,9 +28,9 @@ export const logout = async () => {
   }
 };
 
-export const getProfile = async (token: string) => {
+export const getProfile = async () => {
   try {
-    const response = await apiClient.get(`/profile/${token}`);
+    const response = await apiClient.get(`/profile`);
     return response.data;
   } catch (error) {
     console.log(error);

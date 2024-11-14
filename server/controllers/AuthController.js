@@ -36,28 +36,31 @@ const youtube = google.youtube({
 });
 
 export const login = (req, res) => {
-  console.log("login url: ", url);
   return res.status(200).send(url);
 };
 
 export const callbackLogin = async (req, res) => {
-  try {
-    const code = req.query.code;
-    const { tokens } = await oAuth2Client.getToken(code);
-    setAccessCredentials(tokens.access_token);
-    res.cookie("accessToken", tokens.access_token, {
-      maxAge: maxAge * 1000,
-    });
-    console.log("cookie", req.cookies.accessToken);
-    res.redirect(process.env.ORIGIN);
-  } catch {
-    res.redirect(process.env.ORIGIN);
-  }
+  // try {
+  const code = req.query.code;
+  const { tokens } = await oAuth2Client.getToken(code);
+  setAccessCredentials(tokens.access_token);
+  res.cookie("accessToken", tokens.access_token, {
+    maxAge: maxAge * 1000,
+    sameSite: "None",
+    secure: true,
+    httpOnly: true,
+  });
+  console.log("cookie", req.cookies.accessToken);
+  res.redirect(process.env.ORIGIN);
+  // } catch {
+  //   res.redirect(process.env.ORIGIN);
+  // }
 };
 
 export const getProfile = async (req, res) => {
   try {
-    const token = req.params.token;
+    const token = req.cookies.accessToken;
+    console.log("token", req.cookies.accessToken);
     if (!token) return res.status(401).send("Unauthorized");
     setAccessCredentials(token);
     let oauth2 = google.oauth2({
@@ -73,7 +76,9 @@ export const getProfile = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.cookie("accessToken", "", { maxAge: 1, domain: process.env.ORIGIN });
+  res.cookie("accessToken", "", {
+    maxAge: 1,
+  });
   return res.status(200).send("Logged out");
 };
 

@@ -18,7 +18,7 @@ const authRoutes = Router();
 authRoutes.post("/logout", logout);
 authRoutes.post("/login", login);
 authRoutes.get("/callback", callbackLogin);
-authRoutes.get("/profile/:token", getProfile);
+authRoutes.get("/profile", getProfile);
 authRoutes.get("/activities", getListActivities);
 authRoutes.get("/activities/:videoId", getVideoDetails);
 authRoutes.get("/comments/:videoId", getListComments);

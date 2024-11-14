@@ -4,7 +4,6 @@ import { Youtube } from "lucide-react";
 import { getListActivities, getProfile, login, logout } from "@/api/apiClient";
 import { useEffect, useState } from "react";
 import { YouTubeActivity, YouTubeActivityList } from "@/components/activity";
-import Cookies from "js-cookie";
 
 interface User {
   name: string;
@@ -21,9 +20,8 @@ export const Page = () => {
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get("accessToken");
-      if (token && !user) {
-        const data = await getProfile(token);
+      if (!user) {
+        const data = await getProfile();
         if (data) setUser(data);
       }
 
